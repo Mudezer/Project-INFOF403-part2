@@ -4,10 +4,12 @@ all:
 	jar cfe dist/part1.jar Main -C bin .
 	javadoc -private src/Main.java -d doc/javadoc
 
-testing:
+testing_LexicalAnalyzer:
 	java -jar dist/part1.jar test/Factorial.fs
 
-
+testing:
+	java -jar dist/part2.jar -wt tree.tex test/euclid.co
+#	pdflatex tree.tex
 
 clean:
 	rm bin/ulb/*.class
