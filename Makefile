@@ -12,8 +12,8 @@ testing:
 #	pdflatex tree.tex
 
 clean:
-	rm bin/ulb/*.class
+	rm bin/*.class
 	rm dist/part1.jar
-	rm src/main/java/ulb/LexicalAnalyzer.java
-	rm src/main/java/ulb/*.java~
+	rm src/LexicalAnalyzer.java
+	rm src/*.java~
 

@@ -1,13 +1,14 @@
 public class Symbol{
 	public static final int UNDEFINED_POSITION = -1;
 	public static final Object NO_VALUE = null;
-	
+	public static final LexicalUnit NO_UNIT = null;
+
 	private final LexicalUnit type;
 	private final Object value;
 	private final int line,column;
 
 	public Symbol(LexicalUnit unit,int line,int column,Object value){
-    this.type	= unit;
+    	this.type	= unit;
 		this.line	= line+1;
 		this.column	= column;
 		this.value	= value;
@@ -27,6 +28,10 @@ public class Symbol{
 	
 	public Symbol(LexicalUnit unit,Object value){
 		this(unit,UNDEFINED_POSITION,UNDEFINED_POSITION,value);
+	}
+
+	public Symbol(Object value) {
+		this(NO_UNIT, UNDEFINED_POSITION, UNDEFINED_POSITION, value);
 	}
 
 	public boolean isTerminal(){
@@ -64,8 +69,7 @@ public class Symbol{
 	public String toString(){
 		if(this.isTerminal()){
 			final String value	= this.value != null? this.value.toString() : "null";
-			final String type		= this.type  != null? this.type.toString()  : "null";
-      return String.format("token: %-15slexical unit: %s", value, type);
+      return String.format("%-15s", value);
 		}
 		return "Non-terminal symbol";
 	}
