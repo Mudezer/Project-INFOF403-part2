@@ -5,51 +5,85 @@ import java.util.ArrayList;
 public class Parser {
 
     private Symbol lookAhead;
-    private Symbol actualToken;
-    private LexicalUnit type;
+    private LexicalUnit lookAheadType;
     final LexicalAnalyzer lexer;
     private ArrayList<Integer> usedRules = new ArrayList<>();
 
     public Parser(FileReader source){ lexer = new LexicalAnalyzer(source);}
 
-    public ParseTree Program(){
-        ArrayList<ParseTree> chldn = new ArrayList<>();
-        getNextToken();
-        switch(type){
-            case BEGIN:
-                usedRules.add(1);
-                match(LexicalUnit.BEGIN);
-                match(LexicalUnit.VARNAME);
-
+    public void printUsedRules(){
+        for(Integer integer: usedRules){
+            System.out.println(integer);
         }
-        for(Integer i: usedRules){
-            System.out.println(i.toString());
-        }
-        return null;
     }
 
-    private void match(LexicalUnit expectedToken) {
-        if (actualToken!=null){getNextToken();}
-        if (!expectedToken.equals(type)){
-            //syntaxError(token);
-            System.err.println("error");
-            System.exit(1);
+    public ParseTree PROGRAM(){
+        ArrayList<ParseTree> chldn = new ArrayList<>();
+        getNextToken();
+        switch (lookAheadType){
+            case BEGIN:
+                usedRules.add(1);
+                if(lookAheadType.equals(LexicalUnit.BEGIN)){
+                    System.out.println(lookAheadType);
+                    ParseTree parent = new ParseTree(lookAhead);
+                    chldn.add(parent);
+                }else{
+                    syntaxError(lookAhead.toString());
+                }
+                getNextToken();
+                if(lookAheadType.equals(LexicalUnit.PROGNAME)){
+                    ParseTree parent = new ParseTree(lookAhead);
+
+                }else {
+                    syntaxError(lookAhead.toString());
+                }
+                chldn.add(Code());
+            default:
+                syntaxError("BEGIN expected");
+
+
         }
-        //ParseTree root = new ParseTree(token);
-        actualToken = lookAhead;
-        System.out.println(actualToken.toString());
+        return new ParseTree(new Symbol(lookAhead), chldn);
+    }
+
+    private ParseTree Code() {
+        ArrayList<ParseTree> chldn = new ArrayList<>();
+        getNextToken();
+        switch (lookAheadType){
+            case END:
+                usedRules.add(3);
+                return null;
+            case ELSE:
+                usedRules.add(3);
+                return null;
+        }
+        usedRules.add(2);
+        chldn.add(Instruction()); chldn.add(CodeF());
+        
+
+
+    }
+
+    private ParseTree CodeF() {
+    }
+
+    private ParseTree Instruction() {
+        return null;
     }
 
 
     private void getNextToken(){
-        if(actualToken == null || actualToken.equals(lookAhead)){
-            try{
-                lookAhead = lexer.nextToken();
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-            type = lookAhead.getType();
+        try{
+            lookAhead = lexer.nextToken();
+        }catch (IOException e){
+            e.printStackTrace();
         }
+        lookAheadType = lookAhead.getType();
+    }
 
+
+    private void syntaxError(String c){
+        System.err.println("An error occured," + c);
+        System.exit(1);
     }
 }

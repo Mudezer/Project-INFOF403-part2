@@ -40,7 +40,8 @@ public class Main{
         //final LexicalAnalyzer analyzer = new LexicalAnalyzer(source);
         final Parser parser = new Parser(source);
 
-        ParseTree parseTree = parser.Program();
+        ParseTree parseTree = parser.PROGRAM();
+        parser.printUsedRules();
 
 //        /**
 //         * The variables, sorted in a TreeMap, which maps the name of the variable to its corresponding Symbol.

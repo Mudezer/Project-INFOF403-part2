@@ -15,5 +15,7 @@ IF (number > -1) THEN
 END ,
 PRINT(result) ,
 
-IFabbbENDENDDO
+
 END
+
+BEGIN Factorial (code = epsilon) END
