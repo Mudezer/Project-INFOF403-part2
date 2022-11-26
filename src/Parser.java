@@ -18,7 +18,9 @@ public class Parser {
         switch(type){
             case BEGIN:
                 usedRules.add(1);
-                match(type);
+                match(LexicalUnit.BEGIN);
+                match(LexicalUnit.VARNAME);
+
         }
         for(Integer i: usedRules){
             System.out.println(i.toString());
@@ -27,12 +29,15 @@ public class Parser {
     }
 
     private void match(LexicalUnit expectedToken) {
-        if(expectedToken.equals(type)){
-            System.out.println(type);
+        if (actualToken!=null){getNextToken();}
+        if (!expectedToken.equals(type)){
+            //syntaxError(token);
+            System.err.println("error");
+            System.exit(1);
         }
-
-
-
+        //ParseTree root = new ParseTree(token);
+        actualToken = lookAhead;
+        System.out.println(actualToken.toString());
     }
 
 
@@ -43,8 +48,7 @@ public class Parser {
             }catch (IOException e){
                 e.printStackTrace();
             }
-            actualToken = lookAhead;
-            type = actualToken.getType();
+            type = lookAhead.getType();
         }
 
     }
