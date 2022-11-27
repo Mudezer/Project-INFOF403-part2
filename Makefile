@@ -4,8 +4,8 @@ all:
 	jar cfe dist/part1.jar Main -C bin .
 	javadoc -private src/Main.java -d doc/javadoc
 
-testing_LexicalAnalyzer:
-	java -jar dist/part1.jar test/Factorial.fs
+testing_Lex:
+	java -jar dist/part1.jar test/Parser.fs
 
 testing:
 	java -jar dist/part2.jar -wt tree.tex test/euclid.co

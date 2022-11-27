@@ -14,7 +14,7 @@
 [14]                    → ELSE <Code> END
 [15] <While>            → WHILE (<Cond>) DO <Code> END
 [16] <Cond>             → <ExprArith> <Comp>
-[17] <Comp>            → = <ExprArith>
+[17] <Comp>             → = <ExprArith>
 [18]                    → > <ExprArith>
 [19]                    → < <ExprArith>
 [20] <ExprArith>        → <Prod> <ExprArithF>

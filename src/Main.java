@@ -40,7 +40,7 @@ public class Main{
         //final LexicalAnalyzer analyzer = new LexicalAnalyzer(source);
         final Parser parser = new Parser(source);
 
-        ParseTree parseTree = parser.PROGRAM();
+        ParseTree parseTree = parser.Program();
         parser.printUsedRules();
 
 //        /**
