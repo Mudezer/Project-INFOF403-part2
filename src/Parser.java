@@ -13,6 +13,10 @@ public class Parser {
 
     public Parser(FileReader source){ lexer = new LexicalAnalyzer(source);}
 
+    /**
+     * print the sequence of rules used to parse and make the derivation tree
+     * of the input files
+     */
     public void printUsedRules(){
         for(Integer integer: usedRules){
             System.out.print(integer + " ");
@@ -20,8 +24,9 @@ public class Parser {
     }
 
     /**
-     *
-     * @return
+     * function corresponding to the non-terminal Program
+     * [1] Program           → BEGIN [ProgName] Code END
+     * @return a node which parent is Program  and the
      */
     public ParseTree Program(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
@@ -44,6 +49,12 @@ public class Parser {
         return new ParseTree(new Symbol("Program"), chldn);
     }
 
+    /**
+     * function corresponding to the non terminal Code
+     * [2] Code                → Instruction CodeF
+     * [3]                     → ε
+     * @return a node which parent is
+     */
     private ParseTree Code() {
         ArrayList<ParseTree> chldn = new ArrayList<>();
         getNextToken();
@@ -75,7 +86,11 @@ public class Parser {
             case COMMA:
                 usedRules.add(4);
                 chldn.add(match(LexicalUnit.COMMA));
+                chldn.add(Code());
+                break;
             default:
+                syntaxError("CodeF");
+                break;
         }
         return new ParseTree(new Symbol("CodeF"), chldn);
     }
@@ -113,12 +128,14 @@ public class Parser {
 
     private ParseTree Assign(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
+        getNextToken();
         switch (lookAheadType){
             case VARNAME:
                 usedRules.add(11);
                 chldn.add(match(LexicalUnit.VARNAME));
                 getNextToken();
                 chldn.add(match(LexicalUnit.ASSIGN));
+                getNextToken();
                 chldn.add(ExprArith());
                 break;
             default:
@@ -130,6 +147,7 @@ public class Parser {
 
     private ParseTree If(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
+        getNextToken();
         switch (lookAheadType){
             case IF:
                 usedRules.add(12);
@@ -163,6 +181,7 @@ public class Parser {
                 usedRules.add(14);
                 chldn.add(match(LexicalUnit.ELSE));
                 chldn.add(Code());
+                getNextToken();
                 chldn.add(match(LexicalUnit.END));
                 break;
             default:
@@ -176,6 +195,7 @@ public class Parser {
 
     private ParseTree While(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
+        getNextToken();
         switch (lookAheadType){
             case WHILE:
                 usedRules.add(15);
@@ -421,8 +441,8 @@ public class Parser {
 
     }
 
-
     private void syntaxError(String c){
+        printUsedRules();
         System.err.println("An error occured," + c);
         System.exit(1);
     }
