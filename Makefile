@@ -8,12 +8,12 @@ testing_Lex:
 	java -jar dist/part2.jar test/euclid.co
 
 testing:
-	java -jar dist/part2.jar -wt tree.tex test/euclid.co
-#	pdflatex tree.tex
+	java -jar dist/part2.jar -wt more/tree.tex test/euclid.co
+#	pdflatex more/tree.tex
 
 clean:
 	rm bin/*.class
-	rm dist/part1.jar
+	rm dist/part2.jar
 	rm src/LexicalAnalyzer.java
 	rm src/*.java~
 

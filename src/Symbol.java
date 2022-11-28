@@ -69,11 +69,22 @@ public class Symbol{
 	 * convert the token value as a printable/readable string
 	 * @return a string corresponding to the token's value
 	 */
+	public String valueToString(){
+		if(this.isTerminal()){
+			final String value	= this.value != null? this.value.toString() : "null";
+      return String.format("%-15s", value);
+		}
+		return "Non-terminal symbol";
+	}
+
+
+
 	@Override
 	public String toString(){
 		if(this.isTerminal()){
 			final String value	= this.value != null? this.value.toString() : "null";
-      return String.format("%-15s", value);
+			final String type		= this.type  != null? this.type.toString()  : "null";
+			return String.format("token: %-15slexical unit: %s", value, type);
 		}
 		return "Non-terminal symbol";
 	}

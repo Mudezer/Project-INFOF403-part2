@@ -65,7 +65,6 @@ public class Parser {
             case END:
             case ELSE:
                 usedRules.add(3);
-                System.out.println("$\\varepsilon$");
                 chldn.add(new ParseTree(new Symbol("$\\varepsilon$")));
                 return new ParseTree(new Symbol("code"), chldn);
             default:
@@ -80,7 +79,7 @@ public class Parser {
      * function corresponding to the non terminal CodeF
      * [4] CodeF             → , Code
      * [5]                     → ε
-     * @return 
+     * @return
      */
     private ParseTree CodeF() {
         ArrayList<ParseTree> chldn = new ArrayList<>();
@@ -89,7 +88,6 @@ public class Parser {
             case END:
             case ELSE:
                 usedRules.add(5);
-                System.out.println("$\\varepsilon$");
                 chldn.add(new ParseTree(new Symbol("$\\varepsilon$")));
                 return new ParseTree(new Symbol("CodeF"), chldn);
             case COMMA:
@@ -107,7 +105,11 @@ public class Parser {
 
     /**
      * function corresponding to the non terminal Instruction
-     *
+     * [6] Instruction         → Assign
+     * [7]                     → If
+     * [8]                     → While
+     * [9]                     → Print
+     * [10]                    → Read
      * @return
      */
     private ParseTree Instruction() {
@@ -143,7 +145,7 @@ public class Parser {
 
     /**
      * function corresponding to the non terminal Assign
-     *
+     * [11] Assign           → [VarName] := ExprArith
      * @return
      */
     private ParseTree Assign(){
@@ -167,6 +169,7 @@ public class Parser {
 
     /**
      * function corresponding to the non terminal If
+     * [12] If               → IF (Cond) THEN Code IfSeq
      * @return
      */
     private ParseTree If(){
@@ -195,7 +198,8 @@ public class Parser {
 
     /**
      * function corresponding to the non terminal IfSeq
-     *
+     * [13] IfSeq              → END
+     * [14]                    → ELSE Code END
      * @return
      */
     private ParseTree IfSeq(){
@@ -224,6 +228,7 @@ public class Parser {
 
     /**
      * function corresponding to the non terminal While
+     * [15] While            → WHILE (Cond) DO Code END
      * @return
      */
     private ParseTree While(){
@@ -236,13 +241,9 @@ public class Parser {
                 getNextToken();
                 chldn.add(match(LexicalUnit.LPAREN));
                 getNextToken();
-                //System.out.println("ok LPAREN");
                 chldn.add(Cond());
-                //System.out.println("ok");
                 getNextToken();
-                //System.out.println("ok1");
                 chldn.add(match(LexicalUnit.RPAREN));
-                //System.out.println("ok2");
                 getNextToken();
                 chldn.add(match(LexicalUnit.DO));
                 chldn.add(Code());
@@ -258,7 +259,7 @@ public class Parser {
 
     /**
      * function corresponding to the non terminal Cond
-     *
+     * [16] Cond             → ExprArith Comp
      * @return
      */
     private ParseTree Cond(){
@@ -272,6 +273,9 @@ public class Parser {
 
     /**
      * function corresponding to the non terminal Comp
+     * [17] Comp             → = ExprArith
+     * [18]                    → > ExprArith
+     * [19]                    → < ExprArith
      * @return
      */
     private ParseTree Comp(){
@@ -306,7 +310,7 @@ public class Parser {
 
     /**
      * function corresponding to the non terminal ExprArith
-     *
+     * [20] ExprArith        → Prod ExprArithF
      * @return
      */
     private ParseTree ExprArith(){
@@ -319,7 +323,9 @@ public class Parser {
 
     /**
      * function corresponding to the non terminal ExprArithF
-     *
+     * [21] ExprArithF       → + Prod ExprArithF
+     * [22]                    → - Prod ExprArithF
+     * [23]                    → ε
      * @return
      */
     private ParseTree ExprArithF(){
@@ -359,7 +365,7 @@ public class Parser {
 
     /**
      * function corresponding to the non terminal Prod
-     *
+     * [24] Prod             → Atom ProdF
      * @return
      */
     private ParseTree Prod(){
@@ -372,7 +378,9 @@ public class Parser {
 
     /**
      * function corresponding to the non terminal ProdF
-     *
+     * [25] ProdF              → * Atom ProdF
+     * [26]                    → / Atom ProdF
+     * [27]                    → ε
      * @return
      */
     private ParseTree ProdF(){
@@ -412,7 +420,10 @@ public class Parser {
 
     /**
      * function corresponding to the non terminal Atom
-     *
+     * [28] Atom               → -Atom
+     * [29]                    → ( ExprArith )
+     * [30]                    → [Number]
+     * [31]                    → [VarName]
      * @return
      */
     private ParseTree Atom(){
@@ -449,7 +460,7 @@ public class Parser {
 
     /**
      * function corresponding to the non terminal Print
-     *
+     * [32] Print            → PRINT([VarName])
      * @return
      */
     private ParseTree Print(){
@@ -475,7 +486,7 @@ public class Parser {
 
     /**
      * function corresponding to the non terminal Read
-     *
+     * [33] Read             → READ([VarName])
      * @return
      */
     private ParseTree Read(){
@@ -508,8 +519,10 @@ public class Parser {
      */
     private ParseTree match(LexicalUnit expectedTokenUnit){
         if(expectedTokenUnit.equals(lookAheadType)){
-            System.out.println(lookAheadType);
-            ParseTree parent = new ParseTree(lookAhead);
+            //System.out.println(lookAhead.getValue());
+            //ArrayList<ParseTree> chldn = new ArrayList<>();
+            //chldn.add(new ParseTree(lookAhead.getValue()));
+            ParseTree parent = new ParseTree(lookAhead/*,chldn*/);
             actualToken = lookAhead;
             return parent;
         }else
@@ -518,6 +531,10 @@ public class Parser {
         return null;
     }
 
+    /**
+     * check if the lookahead has already been matched, if yes, then goes to the
+     * next one, if not, doens't move
+     */
     private void getNextToken(){
         // we get the next token only if the lookahead has already been treated
         // as we can't go backward, we must have a limiting variable
@@ -527,14 +544,19 @@ public class Parser {
             }catch (IOException e){
                 e.printStackTrace();
             }
-            lookAheadType = lookAhead.getType();
+            lookAheadType = lookAhead.getType(); // retrieve the lexical unit of the token
         }
 
     }
 
+    /**
+     * launches an error, giving the problematic token, his line and column in the
+     * input text file
+     * @param token problematic token
+     */
     private void syntaxError(Symbol token){
         printUsedRules();
-        System.err.println("An error occured whith the token " + token.getValue() + " line: " + token.getLine() + " column: "+token.getColumn());
+        System.err.println("Error! Please check the token: " + token.getValue() + " line: " + token.getLine() + " column: "+token.getColumn());
         System.exit(1);
     }
 }

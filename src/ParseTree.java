@@ -38,6 +38,9 @@ public class ParseTree {
         this.children = chdn;
     }
 
+    public ParseTree(Object value) {
+    }
+
     /**
      * Writes the tree as LaTeX code
      */
