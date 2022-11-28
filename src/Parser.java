@@ -383,8 +383,11 @@ public class Parser {
             case PRINT:
                 usedRules.add(32);
                 chldn.add(match(LexicalUnit.PRINT));
+                getNextToken();
                 chldn.add(match(LexicalUnit.LPAREN));
+                getNextToken();
                 chldn.add(match(LexicalUnit.VARNAME));
+                getNextToken();
                 chldn.add(match(LexicalUnit.RPAREN));
                 break;
             default:
