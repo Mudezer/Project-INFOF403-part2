@@ -20,7 +20,10 @@ public class Parser {
     public void printUsedRules(){
         for(Integer integer: usedRules){
             System.out.print(integer + " ");
+
+
         }
+        System.out.print("\n");
     }
 
     /**
@@ -42,7 +45,7 @@ public class Parser {
                 chldn.add(match(LexicalUnit.END));
                 break;
             default:
-                syntaxError("BEGIN expected");
+                syntaxError(lookAhead);
                 break;
 
         }
@@ -53,7 +56,7 @@ public class Parser {
      * function corresponding to the non terminal Code
      * [2] Code                → Instruction CodeF
      * [3]                     → ε
-     * @return a node which parent is
+     * @return a node which parent is the non terminal Code
      */
     private ParseTree Code() {
         ArrayList<ParseTree> chldn = new ArrayList<>();
@@ -73,6 +76,12 @@ public class Parser {
         return new ParseTree(new Symbol("Code"), chldn);
     }
 
+    /**
+     * function corresponding to the non terminal CodeF
+     * [4] CodeF             → , Code
+     * [5]                     → ε
+     * @return 
+     */
     private ParseTree CodeF() {
         ArrayList<ParseTree> chldn = new ArrayList<>();
         getNextToken();
@@ -89,12 +98,18 @@ public class Parser {
                 chldn.add(Code());
                 break;
             default:
-                syntaxError("CodeF");
+                syntaxError(lookAhead);
                 break;
         }
         return new ParseTree(new Symbol("CodeF"), chldn);
     }
 
+
+    /**
+     * function corresponding to the non terminal Instruction
+     *
+     * @return
+     */
     private ParseTree Instruction() {
         ArrayList<ParseTree> chldn = new ArrayList<>();
         getNextToken();
@@ -120,12 +135,17 @@ public class Parser {
                 chldn.add(Read());
                 break;
             default:
-                syntaxError("Instruction variable expected");
+                syntaxError(lookAhead);
                 break;
         }
         return new ParseTree(new Symbol("Instruction"), chldn);
     }
 
+    /**
+     * function corresponding to the non terminal Assign
+     *
+     * @return
+     */
     private ParseTree Assign(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
         getNextToken();
@@ -139,12 +159,16 @@ public class Parser {
                 chldn.add(ExprArith());
                 break;
             default:
-                syntaxError("VarName expected");
+                syntaxError(lookAhead);
                 break;
         }
         return new ParseTree(new Symbol("Assign"), chldn);
     }
 
+    /**
+     * function corresponding to the non terminal If
+     * @return
+     */
     private ParseTree If(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
         getNextToken();
@@ -163,12 +187,17 @@ public class Parser {
                 chldn.add(IfSeq());
                 break;
             default:
-                syntaxError("If exepected");
+                syntaxError(lookAhead);
                 break;
         }
         return new ParseTree(new Symbol("If"), chldn);
     }
 
+    /**
+     * function corresponding to the non terminal IfSeq
+     *
+     * @return
+     */
     private ParseTree IfSeq(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
         getNextToken();
@@ -185,7 +214,7 @@ public class Parser {
                 chldn.add(match(LexicalUnit.END));
                 break;
             default:
-                syntaxError("END or ELSE Expected");
+                syntaxError(lookAhead);
                 break;
         }
 
@@ -193,6 +222,10 @@ public class Parser {
 
     }
 
+    /**
+     * function corresponding to the non terminal While
+     * @return
+     */
     private ParseTree While(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
         getNextToken();
@@ -203,9 +236,13 @@ public class Parser {
                 getNextToken();
                 chldn.add(match(LexicalUnit.LPAREN));
                 getNextToken();
+                //System.out.println("ok LPAREN");
                 chldn.add(Cond());
+                //System.out.println("ok");
                 getNextToken();
+                //System.out.println("ok1");
                 chldn.add(match(LexicalUnit.RPAREN));
+                //System.out.println("ok2");
                 getNextToken();
                 chldn.add(match(LexicalUnit.DO));
                 chldn.add(Code());
@@ -213,12 +250,17 @@ public class Parser {
                 chldn.add(match(LexicalUnit.END));
                 break;
             default:
-                syntaxError("An Error occured at while function");
+                syntaxError(lookAhead);
                 break;
         }
         return new ParseTree(new Symbol("While"), chldn);
     }
 
+    /**
+     * function corresponding to the non terminal Cond
+     *
+     * @return
+     */
     private ParseTree Cond(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
         usedRules.add(16);
@@ -228,6 +270,10 @@ public class Parser {
 
     }
 
+    /**
+     * function corresponding to the non terminal Comp
+     * @return
+     */
     private ParseTree Comp(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
         getNextToken();
@@ -251,13 +297,18 @@ public class Parser {
                 chldn.add(ExprArith());
                 break;
             default:
-                syntaxError("kek");
+                syntaxError(lookAhead);
                 break;
         }
         return new ParseTree(new Symbol("Comp"), chldn);
 
     }
 
+    /**
+     * function corresponding to the non terminal ExprArith
+     *
+     * @return
+     */
     private ParseTree ExprArith(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
         usedRules.add(20);
@@ -266,6 +317,11 @@ public class Parser {
         return new ParseTree(new Symbol("ExprArith"), chldn);
     }
 
+    /**
+     * function corresponding to the non terminal ExprArithF
+     *
+     * @return
+     */
     private ParseTree ExprArithF(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
         getNextToken();
@@ -295,12 +351,17 @@ public class Parser {
                 chldn.add(ExprArithF());
                 break;
             default:
-                syntaxError("kek2");
+                syntaxError(lookAhead);
                 break;
         }
         return new ParseTree(new Symbol("ExprArithF"), chldn);
     }
 
+    /**
+     * function corresponding to the non terminal Prod
+     *
+     * @return
+     */
     private ParseTree Prod(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
         usedRules.add(24);
@@ -309,6 +370,11 @@ public class Parser {
         return new ParseTree(new Symbol("Prod"), chldn);
     }
 
+    /**
+     * function corresponding to the non terminal ProdF
+     *
+     * @return
+     */
     private ParseTree ProdF(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
         getNextToken();
@@ -338,12 +404,17 @@ public class Parser {
                 chldn.add(ProdF());
                 break;
             default:
-                syntaxError("kek");
+                syntaxError(lookAhead);
                 break;
         }
         return new ParseTree(new Symbol("ProdF"), chldn);
     }
 
+    /**
+     * function corresponding to the non terminal Atom
+     *
+     * @return
+     */
     private ParseTree Atom(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
         getNextToken();
@@ -369,13 +440,18 @@ public class Parser {
                 chldn.add(match(LexicalUnit.VARNAME));
                 break;
             default:
-                syntaxError("Atom");
+                syntaxError(lookAhead);
                 break;
         }
 
         return new ParseTree(new Symbol("Atom"), chldn);
     }
 
+    /**
+     * function corresponding to the non terminal Print
+     *
+     * @return
+     */
     private ParseTree Print(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
         getNextToken();
@@ -391,12 +467,17 @@ public class Parser {
                 chldn.add(match(LexicalUnit.RPAREN));
                 break;
             default:
-                syntaxError("Print()");
+                syntaxError(lookAhead);
                 break;
         }
         return new ParseTree(new Symbol("Print"), chldn);
     }
 
+    /**
+     * function corresponding to the non terminal Read
+     *
+     * @return
+     */
     private ParseTree Read(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
         getNextToken();
@@ -412,20 +493,27 @@ public class Parser {
                 chldn.add(match(LexicalUnit.RPAREN));
                 break;
             default:
-                syntaxError("Read()");
+                syntaxError(lookAhead);
                 break;
         }
         return new ParseTree(new Symbol("Read"), chldn);
     }
 
-    private ParseTree match(LexicalUnit expectedToken){
-        if(expectedToken.equals(lookAheadType)){
+    /**
+     * matching function checking whether the look ahead is equal to the expected
+     * Lexical Unit => essential to a predictive parser
+     * if doesn't match, launch an error
+     * @param expectedTokenUnit expected Lexical unit
+     * @return a Parent node of the ParseTree
+     */
+    private ParseTree match(LexicalUnit expectedTokenUnit){
+        if(expectedTokenUnit.equals(lookAheadType)){
             System.out.println(lookAheadType);
             ParseTree parent = new ParseTree(lookAhead);
             actualToken = lookAhead;
             return parent;
         }else
-            syntaxError(lookAhead.toString());
+            syntaxError(lookAhead);
 
         return null;
     }
@@ -444,9 +532,9 @@ public class Parser {
 
     }
 
-    private void syntaxError(String c){
+    private void syntaxError(Symbol token){
         printUsedRules();
-        System.err.println("An error occured," + c);
+        System.err.println("An error occured whith the token " + token.getValue() + " line: " + token.getLine() + " column: "+token.getColumn());
         System.exit(1);
     }
 }

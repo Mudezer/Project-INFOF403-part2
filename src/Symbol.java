@@ -64,7 +64,11 @@ public class Symbol{
 		final String type		= this.type  != null? this.type.toString()  : "null";
 		return new String(value+"_"+type).hashCode();
 	}
-	
+
+	/**
+	 * convert the token value as a printable/readable string
+	 * @return a string corresponding to the token's value
+	 */
 	@Override
 	public String toString(){
 		if(this.isTerminal()){
@@ -74,8 +78,12 @@ public class Symbol{
 		return "Non-terminal symbol";
 	}
 
+
 	public String toTexString() {
-		System.out.println("ok");
-		return null;
+
+		if(isNonTerminal()){
+			return this.value.toString();
+		}
+		return this.type.toString();
 	}
 }
