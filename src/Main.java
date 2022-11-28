@@ -7,9 +7,10 @@ import java.util.Optional;
 
 /**
  *
- * Project Part 1: Lexical Analyzer
+ * Project Part 2: Parser
  *
- * @author Sarah Winter, Marie Van Den Bogaard, Léo Exibard, Gilles Geeraerts
+ * @author Bermudez Loïc, Nabbout Fadi
+ * Lexical Analyzer based on solution
  *
  */
 
@@ -31,12 +32,15 @@ public class Main{
             System.exit(0);
         }
 
-        FileReader source = null;
-        FileWriter output = null;
+        FileReader source;
+        FileWriter output;
         String latex = null;
         String fortress = null;
 
 
+        /*
+            checks if there are sufficient arguments and which one are missing
+         */
         for(int i = 0; i< args.length;i++){
             if(args[i].equals("-wt")){
                 if(i+1 < args.length && i+2 < args.length){
@@ -61,6 +65,7 @@ public class Main{
         source = new FileReader(fortress);
         final Parser parser = new Parser(source);
 
+        //launch the parsing
         ParseTree parseTree = parser.Program();
         parser.printUsedRules();
 

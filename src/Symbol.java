@@ -30,6 +30,10 @@ public class Symbol{
 		this(unit,UNDEFINED_POSITION,UNDEFINED_POSITION,value);
 	}
 
+	/**
+	 * new constructor which is composed of only the value
+	 * @param value of the token
+	 */
 	public Symbol(Object value) {
 		this(NO_UNIT, UNDEFINED_POSITION, UNDEFINED_POSITION, value);
 	}
@@ -65,20 +69,6 @@ public class Symbol{
 		return new String(value+"_"+type).hashCode();
 	}
 
-	/**
-	 * convert the token value as a printable/readable string
-	 * @return a string corresponding to the token's value
-	 */
-	public String valueToString(){
-		if(this.isTerminal()){
-			final String value	= this.value != null? this.value.toString() : "null";
-      return String.format("%-15s", value);
-		}
-		return "Non-terminal symbol";
-	}
-
-
-
 	@Override
 	public String toString(){
 		if(this.isTerminal()){
@@ -89,7 +79,10 @@ public class Symbol{
 		return "Non-terminal symbol";
 	}
 
-
+	/**
+	 * convert the value or the lexical unit into a string
+	 * @return the value or the lexical unit following if the token is terminal or not
+	 */
 	public String toTexString() {
 
 		if(isNonTerminal()){

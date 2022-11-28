@@ -29,7 +29,7 @@ public class Parser {
     /**
      * function corresponding to the non-terminal Program
      * [1] Program           → BEGIN [ProgName] Code END
-     * @return a node which parent is Program  and the
+     * @return a Parent node which is the non terminal Program and the corresponding children
      */
     public ParseTree Program(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
@@ -56,7 +56,7 @@ public class Parser {
      * function corresponding to the non terminal Code
      * [2] Code                → Instruction CodeF
      * [3]                     → ε
-     * @return a node which parent is the non terminal Code
+     * @return a Parent node which is the non terminal Code and the corresponding children
      */
     private ParseTree Code() {
         ArrayList<ParseTree> chldn = new ArrayList<>();
@@ -68,6 +68,8 @@ public class Parser {
                 chldn.add(new ParseTree(new Symbol("$\\varepsilon$")));
                 return new ParseTree(new Symbol("code"), chldn);
             default:
+                syntaxError(lookAhead);
+                break;
         }
         usedRules.add(2);
         chldn.add(Instruction()); chldn.add(CodeF());
@@ -77,9 +79,9 @@ public class Parser {
 
     /**
      * function corresponding to the non terminal CodeF
-     * [4] CodeF             → , Code
+     * [4] CodeF               → , Code
      * [5]                     → ε
-     * @return
+     * @return a parent node which is the non terminal CodeF and the corresponding children
      */
     private ParseTree CodeF() {
         ArrayList<ParseTree> chldn = new ArrayList<>();
@@ -110,7 +112,7 @@ public class Parser {
      * [8]                     → While
      * [9]                     → Print
      * [10]                    → Read
-     * @return
+     * @return a parent node which is the non terminal Instruction and the corresponding children
      */
     private ParseTree Instruction() {
         ArrayList<ParseTree> chldn = new ArrayList<>();
@@ -146,7 +148,7 @@ public class Parser {
     /**
      * function corresponding to the non terminal Assign
      * [11] Assign           → [VarName] := ExprArith
-     * @return
+     * @return a parent node which is the non terminal Assign and the corresponding children
      */
     private ParseTree Assign(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
@@ -170,7 +172,7 @@ public class Parser {
     /**
      * function corresponding to the non terminal If
      * [12] If               → IF (Cond) THEN Code IfSeq
-     * @return
+     * @return a parent node which is the non terminal IF and the corresponding children
      */
     private ParseTree If(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
@@ -200,7 +202,7 @@ public class Parser {
      * function corresponding to the non terminal IfSeq
      * [13] IfSeq              → END
      * [14]                    → ELSE Code END
-     * @return
+     * @return a parent node which is the non terminal IfSeq and the corresponding children
      */
     private ParseTree IfSeq(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
@@ -229,7 +231,7 @@ public class Parser {
     /**
      * function corresponding to the non terminal While
      * [15] While            → WHILE (Cond) DO Code END
-     * @return
+     * @return a parent node which is the non terminal While and the corresponding children
      */
     private ParseTree While(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
@@ -260,7 +262,7 @@ public class Parser {
     /**
      * function corresponding to the non terminal Cond
      * [16] Cond             → ExprArith Comp
-     * @return
+     * @return a parent node which is the non terminal Cond and the corresponding children
      */
     private ParseTree Cond(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
@@ -276,7 +278,7 @@ public class Parser {
      * [17] Comp             → = ExprArith
      * [18]                    → > ExprArith
      * [19]                    → < ExprArith
-     * @return
+     * @return a parent node which is the non terminal Comp and the corresponding children
      */
     private ParseTree Comp(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
@@ -311,7 +313,7 @@ public class Parser {
     /**
      * function corresponding to the non terminal ExprArith
      * [20] ExprArith        → Prod ExprArithF
-     * @return
+     * @return a parent node which is the non terminal ExprArith and the corresponding children
      */
     private ParseTree ExprArith(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
@@ -326,7 +328,7 @@ public class Parser {
      * [21] ExprArithF       → + Prod ExprArithF
      * [22]                    → - Prod ExprArithF
      * [23]                    → ε
-     * @return
+     * @return a parent node which is the non terminal ExprArithF and the corresponding children
      */
     private ParseTree ExprArithF(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
@@ -366,7 +368,7 @@ public class Parser {
     /**
      * function corresponding to the non terminal Prod
      * [24] Prod             → Atom ProdF
-     * @return
+     * @return a parent node which is the non terminal Prod and the corresponding children
      */
     private ParseTree Prod(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
@@ -381,7 +383,7 @@ public class Parser {
      * [25] ProdF              → * Atom ProdF
      * [26]                    → / Atom ProdF
      * [27]                    → ε
-     * @return
+     * @return a parent node which is the non terminal ProdF and the corresponding children
      */
     private ParseTree ProdF(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
@@ -424,7 +426,7 @@ public class Parser {
      * [29]                    → ( ExprArith )
      * [30]                    → [Number]
      * [31]                    → [VarName]
-     * @return
+     * @return a parent node which is the non terminal Atom and the corresponding children
      */
     private ParseTree Atom(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
@@ -461,7 +463,7 @@ public class Parser {
     /**
      * function corresponding to the non terminal Print
      * [32] Print            → PRINT([VarName])
-     * @return
+     * @return a Parent node which is the non terminal Print and the corresponding children
      */
     private ParseTree Print(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
@@ -487,7 +489,7 @@ public class Parser {
     /**
      * function corresponding to the non terminal Read
      * [33] Read             → READ([VarName])
-     * @return
+     * @return a Parent node which is the non terminal Read and the corresponding children
      */
     private ParseTree Read(){
         ArrayList<ParseTree> chldn = new ArrayList<>();
@@ -519,10 +521,7 @@ public class Parser {
      */
     private ParseTree match(LexicalUnit expectedTokenUnit){
         if(expectedTokenUnit.equals(lookAheadType)){
-            //System.out.println(lookAhead.getValue());
-            //ArrayList<ParseTree> chldn = new ArrayList<>();
-            //chldn.add(new ParseTree(lookAhead.getValue()));
-            ParseTree parent = new ParseTree(lookAhead/*,chldn*/);
+            ParseTree parent = new ParseTree(lookAhead);
             actualToken = lookAhead;
             return parent;
         }else
@@ -552,6 +551,7 @@ public class Parser {
     /**
      * launches an error, giving the problematic token, his line and column in the
      * input text file
+     * print the rules until the problem
      * @param token problematic token
      */
     private void syntaxError(Symbol token){
