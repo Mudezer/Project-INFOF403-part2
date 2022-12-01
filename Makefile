@@ -5,10 +5,11 @@ all:
 	javadoc -private src/Main.java -d doc/javadoc
 
 testing_Lex:
-	java -jar dist/part2.jar test/euclid.co
+	java -jar dist/part2.jar test/Factorial.fs
 
 testing:
 	java -jar dist/part2.jar -wt more/tree.tex test/euclid.co
+	java -jar dist/part2.jar -wt more/Factorial.tex test/Factorial.fs
 #	pdflatex more/tree.tex
 
 clean:
@@ -16,4 +17,6 @@ clean:
 	rm dist/part2.jar
 	rm src/LexicalAnalyzer.java
 	rm src/*.java~
+	rm doc/javadoc
+
 

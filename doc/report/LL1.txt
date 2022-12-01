@@ -2,7 +2,7 @@
 [2] <Code>              → <Instruction> <CodeF>
 [3]                     → ε
 [4] <CodeF>             → , <Code>
-[5]                     → ε     //https://www.csd.uwo.ca/~mmorenom/CS447/Lectures/Syntax.html/node8.html
+[5]                     → ε
 [6] <Instruction>       → <Assign>
 [7]                     → <If>
 [8]                     → <While>

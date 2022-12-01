@@ -1,6 +1,6 @@
 [1] <Program>           → BEGIN [ProgName] <Code> END
 [2] <Code>              → <Instruction> , <Code>
-[3]                     →ε
+[3]                     → ε
 [4] <Instruction>       → <Assign>
 [5]                     → <If>
 [6]                     → <While>
@@ -25,3 +25,5 @@
 [25] <Assign>           → [VarName] := <ExprArith>
 [26] <Print>            → PRINT([VarName])
 [27] <Read>             → READ([VarName])
+
+

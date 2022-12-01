@@ -1,4 +1,4 @@
-:: Euclid's algorithm
+:: Euclid's algorithm found on https://en.wikipedia.org/wiki/Euclidean_algorithm#Implementations
 
 BEGIN Euclid
 
@@ -9,7 +9,7 @@ BEGIN Euclid
         WHILE (b<0) DO
             c := b ,
             WHILE ((a+1) > b) DO
-                a := a-b
+                a := a-b ,
             END ,
             b := a ,
             a := b ,

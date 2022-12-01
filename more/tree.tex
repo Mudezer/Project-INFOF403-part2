@@ -1,0 +1,14 @@
+\documentclass[border=5pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{forest}
+
+\begin{document}
+
+\begin{forest}for tree={rectangle, draw, l sep=20pt}[{Program} [{BEGIN} ][{PROGNAME} ][{Code} [{Instruction} [{Read} [{READ} ][{LPAREN} ][{VARNAME} ][{RPAREN} ]]][{CodeF} [{COMMA} ][{Code} [{Instruction} [{Read} [{READ} ][{LPAREN} ][{VARNAME} ][{RPAREN} ]]][{CodeF} [{COMMA} ][{Code} [{Instruction} [{While} [{WHILE} ][{LPAREN} ][{Cond} [{ExprArith} [{Prod} [{Atom} [{VARNAME} ]][{ProdF} [{$\varepsilon$} ]]][{ExprArithF} [{$\varepsilon$} ]]][{Comp} [{GREATER} ][{ExprArith} [{Prod} [{Atom} [{NUMBER} ]][{ProdF} [{$\varepsilon$} ]]][{ExprArithF} [{$\varepsilon$} ]]]]][{RPAREN} ][{DO} ][{Code} [{Instruction} [{While} [{WHILE} ][{LPAREN} ][{Cond} [{ExprArith} [{Prod} [{Atom} [{VARNAME} ]][{ProdF} [{$\varepsilon$} ]]][{ExprArithF} [{$\varepsilon$} ]]][{Comp} [{SMALLER} ][{ExprArith} [{Prod} [{Atom} [{NUMBER} ]][{ProdF} [{$\varepsilon$} ]]][{ExprArithF} [{$\varepsilon$} ]]]]][{RPAREN} ][{DO} ][{Code} [{Instruction} [{Assign} [{VARNAME} ][{ASSIGN} ][{ExprArith} [{Prod} [{Atom} [{VARNAME} ]][{ProdF} [{$\varepsilon$} ]]][{ExprArithF} [{$\varepsilon$} ]]]]][{CodeF} [{COMMA} ][{Code} [{Instruction} [{While} [{WHILE} ][{LPAREN} ][{Cond} [{ExprArith} [{Prod} [{Atom} [{LPAREN} ][{ExprArith} [{Prod} [{Atom} [{VARNAME} ]][{ProdF} [{$\varepsilon$} ]]][{ExprArithF} [{PLUS} ][{Prod} [{Atom} [{NUMBER} ]][{ProdF} [{$\varepsilon$} ]]][{ExprArithF} [{$\varepsilon$} ]]]][{RPAREN} ]][{ProdF} [{$\varepsilon$} ]]][{ExprArithF} [{$\varepsilon$} ]]][{Comp} [{GREATER} ][{ExprArith} [{Prod} [{Atom} [{VARNAME} ]][{ProdF} [{$\varepsilon$} ]]][{ExprArithF} [{$\varepsilon$} ]]]]][{RPAREN} ][{DO} ][{Code} [{Instruction} [{Assign} [{VARNAME} ][{ASSIGN} ][{ExprArith} [{Prod} [{Atom} [{VARNAME} ]][{ProdF} [{$\varepsilon$} ]]][{ExprArithF} [{MINUS} ][{Prod} [{Atom} [{VARNAME} ]][{ProdF} [{$\varepsilon$} ]]][{ExprArithF} [{$\varepsilon$} ]]]]]][{CodeF} [{COMMA} ][{code} [{$\varepsilon$} ]]]][{END} ]]][{CodeF} [{COMMA} ][{Code} [{Instruction} [{Assign} [{VARNAME} ][{ASSIGN} ][{ExprArith} [{Prod} [{Atom} [{VARNAME} ]][{ProdF} [{$\varepsilon$} ]]][{ExprArithF} [{$\varepsilon$} ]]]]][{CodeF} [{COMMA} ][{Code} [{Instruction} [{Assign} [{VARNAME} ][{ASSIGN} ][{ExprArith} [{Prod} [{Atom} [{VARNAME} ]][{ProdF} [{$\varepsilon$} ]]][{ExprArithF} [{$\varepsilon$} ]]]]][{CodeF} [{COMMA} ][{code} [{$\varepsilon$} ]]]]]]]]]][{END} ]]][{CodeF} [{COMMA} ][{code} [{$\varepsilon$} ]]]][{END} ]]][{CodeF} [{COMMA} ][{Code} [{Instruction} [{Print} [{PRINT} ][{LPAREN} ][{VARNAME} ][{RPAREN} ]]][{CodeF} [{COMMA} ][{code} [{$\varepsilon$} ]]]]]]]]]][{END} ]];
+\end{forest}
+
+\end{document}
+%% Local Variables:
+%% TeX-engine: pdflatex
+%% End:

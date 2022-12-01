@@ -20,8 +20,6 @@ public class Parser {
     public void printUsedRules(){
         for(Integer integer: usedRules){
             System.out.print(integer + " ");
-
-
         }
         System.out.print("\n");
     }
@@ -68,8 +66,6 @@ public class Parser {
                 chldn.add(new ParseTree(new Symbol("$\\varepsilon$")));
                 return new ParseTree(new Symbol("code"), chldn);
             default:
-                syntaxError(lookAhead);
-                break;
         }
         usedRules.add(2);
         chldn.add(Instruction()); chldn.add(CodeF());

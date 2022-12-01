@@ -1,0 +1,14 @@
+\documentclass[border=5pt]{standalone}
+
+\usepackage{tikz}
+\usepackage{forest}
+
+\begin{document}
+
+\begin{forest}for tree={rectangle, draw, l sep=20pt}[{Program} [{BEGIN} ][{PROGNAME} ][{Code} [{Instruction} [{Read} [{READ} ][{LPAREN} ][{VARNAME} ][{RPAREN} ]]][{CodeF} [{COMMA} ][{Code} [{Instruction} [{Assign} [{VARNAME} ][{ASSIGN} ][{ExprArith} [{Prod} [{Atom} [{NUMBER} ]][{ProdF} [{$\varepsilon$} ]]][{ExprArithF} [{$\varepsilon$} ]]]]][{CodeF} [{COMMA} ][{Code} [{Instruction} [{If} [{IF} ][{LPAREN} ][{Cond} [{ExprArith} [{Prod} [{Atom} [{VARNAME} ]][{ProdF} [{$\varepsilon$} ]]][{ExprArithF} [{$\varepsilon$} ]]][{Comp} [{GREATER} ][{ExprArith} [{Prod} [{Atom} [{MINUS} ][{Atom} [{NUMBER} ]]][{ProdF} [{$\varepsilon$} ]]][{ExprArithF} [{$\varepsilon$} ]]]]][{RPAREN} ][{THEN} ][{Code} [{Instruction} [{While} [{WHILE} ][{LPAREN} ][{Cond} [{ExprArith} [{Prod} [{Atom} [{VARNAME} ]][{ProdF} [{$\varepsilon$} ]]][{ExprArithF} [{$\varepsilon$} ]]][{Comp} [{GREATER} ][{ExprArith} [{Prod} [{Atom} [{NUMBER} ]][{ProdF} [{$\varepsilon$} ]]][{ExprArithF} [{$\varepsilon$} ]]]]][{RPAREN} ][{DO} ][{Code} [{Instruction} [{Assign} [{VARNAME} ][{ASSIGN} ][{ExprArith} [{Prod} [{Atom} [{VARNAME} ]][{ProdF} [{TIMES} ][{Atom} [{VARNAME} ]][{ProdF} [{$\varepsilon$} ]]]][{ExprArithF} [{$\varepsilon$} ]]]]][{CodeF} [{COMMA} ][{Code} [{Instruction} [{Assign} [{VARNAME} ][{ASSIGN} ][{ExprArith} [{Prod} [{Atom} [{VARNAME} ]][{ProdF} [{$\varepsilon$} ]]][{ExprArithF} [{MINUS} ][{Prod} [{Atom} [{NUMBER} ]][{ProdF} [{$\varepsilon$} ]]][{ExprArithF} [{$\varepsilon$} ]]]]]][{CodeF} [{COMMA} ][{code} [{$\varepsilon$} ]]]]]][{END} ]]][{CodeF} [{COMMA} ][{code} [{$\varepsilon$} ]]]][{IfSeq} [{ELSE} ][{Code} [{Instruction} [{Assign} [{VARNAME} ][{ASSIGN} ][{ExprArith} [{Prod} [{Atom} [{MINUS} ][{Atom} [{NUMBER} ]]][{ProdF} [{$\varepsilon$} ]]][{ExprArithF} [{$\varepsilon$} ]]]]][{CodeF} [{COMMA} ][{code} [{$\varepsilon$} ]]]][{END} ]]]][{CodeF} [{COMMA} ][{Code} [{Instruction} [{Print} [{PRINT} ][{LPAREN} ][{VARNAME} ][{RPAREN} ]]][{CodeF} [{COMMA} ][{code} [{$\varepsilon$} ]]]]]]]]]][{END} ]];
+\end{forest}
+
+\end{document}
+%% Local Variables:
+%% TeX-engine: pdflatex
+%% End:
